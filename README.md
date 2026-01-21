@@ -38,4 +38,7 @@ This project is currently a working prototype developed for the hackathon.
 2. Install dependencies
 3. Start backend server
 4. Run the mobile app
+## Demo Video
 
+🎥 Watch the demo here:  
+https://drive.google.com/file/d/19FJLRrrdiMfHOo3y1j09ECzIEthoDgPS/view?usp=sharing
