@@ -1,0 +1,119 @@
+<!FRONTEND> 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>EduCoach AI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f7fb;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      width: 400px;
+      margin: 40px auto;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2b6cb0;
+    }
+
+    #chatBox {
+      height: 300px;
+      border: 1px solid #ddd;
+      padding: 10px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+    }
+
+    .msg-teacher {
+      color: blue;
+      margin: 5px 0;
+    }
+
+    .msg-ai {
+      color: green;
+      margin: 5px 0;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0;
+    }
+
+    button {
+      background: #2b6cb0;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    button:hover {
+      background: #1a4f8b;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>EduCoach AI</h2>
+
+  <select id="grade">
+    <option>Grade 1</option>
+    <option>Grade 2</option>
+    <option>Grade 3</option>
+    <option>Grade 4</option>
+    <option>Grade 5</option>
+  </select>
+
+  <select id="language">
+    <option>English</option>
+    <option>Hindi</option>
+    <option>Tamil</option>
+    <option>Telugu</option>
+  </select>
+
+  <div id="chatBox"></div>
+
+  <input type="text" id="message" placeholder="Describe your classroom problem..." />
+  <button onclick="sendMessage()">Ask EduCoach</button>
+</div>
+
+<script>
+  async function sendMessage() {
+    const message = document.getElementById("message").value;
+    const grade = document.getElementById("grade").value;
+    const language = document.getElementById("language").value;
+
+    if (!message) return;
+
+    const chatBox = document.getElementById("chatBox");
+
+    chatBox.innerHTML += `<div class="msg-teacher"><b>You:</b> ${message}</div>`;
+    document.getElementById("message").value = "";
+
+    const response = await fetch("http://localhost:8080/coach", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message, grade, language })
+    });
+
+    const data = await response.json();
+    chatBox.innerHTML += `<div class="msg-ai"><b>Coach:</b> ${data.reply}</div>`;
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+</script>
+
+</body>
+</html>
